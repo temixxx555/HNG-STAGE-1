@@ -79,9 +79,8 @@ funFact(42); // Example usage
 
 app.get("/api/classify-number", async (req, res) => {
   try {
-    const numString = req.query.num; // Read number as a string
+    const numString = req.query.num; 
 
-    // **Validation: Check if num is missing, non-numeric, or contains spaces**
     if (!numString || isNaN(numString) || numString.includes(" ")) {
       return res.status(400).json({
         number: "alphabet",
@@ -89,7 +88,7 @@ app.get("/api/classify-number", async (req, res) => {
       });
     }
 
-    const num = Number(numString); // Convert to number
+    const num = Number(numString); 
 
     const fun_fact = await funFact(num);
 
