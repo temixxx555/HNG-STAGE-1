@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = process.env.port || 3000;
+const PORT = process.env.PORT || 3000;
 
 const primeNumbers = (num) => {
   if (num < 2) {
@@ -10,13 +10,13 @@ const primeNumbers = (num) => {
   }
   for (let i = 2; i < num; i++) {
     if (num % i === 0) {
-      console.log(`not prime number ${num}`);
+      console.log(`Not a prime number: ${num}`);
 
       return false;
     }
   }
 
-  console.log(`prime number is ${num}`);
+  console.log(`prime number: ${num}`);
   return true;
 };
 primeNumbers(2);
@@ -31,9 +31,12 @@ const armstrong = (num) => {
   }
 
   if (sum === num) {
-    console.log(`armsrong ${num}`);
+    console.log(`armsrong: ${num}`);
     return true;
-  } else console.log("armstrong is not true");
+  } else {
+    console.log("armstrong is not true");
+    return false;
+  }
 };
 armstrong(153);
 
@@ -41,9 +44,9 @@ const isOdd = (num) => (num % 2 !== 0 ? true : false);
 isOdd(3);
 const properties = (num) => {
   if (armstrong(num) === true && isOdd(num) === true) {
-    return ["armstrong","odd"];
+    return ["armstrong", "odd"];
   } else if (armstrong(num) === true && isOdd(num) === false) {
-    return ["armstrong","even"];
+    return ["armstrong", "even"];
   } else if (isOdd(num) === false) {
     return ["even"];
   } else if (isOdd(num) === true) {
@@ -63,7 +66,18 @@ const sumOfDigit = (num) => {
   return sum;
 };
 sumOfDigit(1234);
-
+const isPerfect = (num) => {
+    if (num < 2) return false;
+    let sum = 1;  
+    for (let i = 2; i <= Math.sqrt(num); i++) {
+      if (num % i === 0) {
+        sum += i;
+        if (i !== num / i) sum += num / i; 
+      }
+    }
+    return sum === num;
+  };
+  isPerfect(28)
 const funFact = async (num) => {
   try {
     const response = await fetch(`http://numbersapi.com/${num}?json`);
@@ -79,7 +93,7 @@ funFact(42); // Example usage
 
 app.get("/api/classify-number", async (req, res) => {
   try {
-    const numString = req.query.num; 
+    const numString = req.query.num;
 
     if (!numString || isNaN(numString) || numString.includes(" ")) {
       return res.status(400).json({
@@ -88,14 +102,14 @@ app.get("/api/classify-number", async (req, res) => {
       });
     }
 
-    const num = Number(numString); 
+    const num = Number(numString);
 
     const fun_fact = await funFact(num);
 
     res.json({
       number: num,
       is_prime: primeNumbers(num),
-      is_perfect: armstrong(num),
+      is_perfect: isPerfect(num),
       properties: properties(num),
       digit_sum: sumOfDigit(num),
       fun_fact: fun_fact,
