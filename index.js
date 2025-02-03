@@ -41,13 +41,13 @@ const isOdd = (num) => (num % 2 !== 0 ? true : false);
 isOdd(3);
 const properties = (num) => {
   if (armstrong(num) === true && isOdd(num) === true) {
-    return "armstrong and odd";
+    return ["armstrong","odd"];
   } else if (armstrong(num) === true && isOdd(num) === false) {
-    return "armstrong and even";
+    return ["armstrong","even"];
   } else if (isOdd(num) === false) {
-    return "even";
+    return ["even"];
   } else if (isOdd(num) === true) {
-    return "odd";
+    return ["odd"];
   }
 };
 properties(11);
@@ -96,7 +96,7 @@ app.get("/api/classify-number", async (req, res) => {
       number: num,
       is_prime: primeNumbers(num),
       is_perfect: armstrong(num),
-      properties: [properties(num)],
+      properties: properties(num),
       digit_sum: sumOfDigit(num),
       fun_fact: fun_fact,
     });
