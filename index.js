@@ -1,12 +1,13 @@
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3000;
+const cors = require("cors");
+app.use(cors());
 
 const primeNumbers = (num) => {
   if (num < 2) {
     console.log("wrong number");
-
-    return;
+    return false;
   }
   for (let i = 2; i < num; i++) {
     if (num % i === 0) {
@@ -31,10 +32,8 @@ const armstrong = (num) => {
   }
 
   if (sum === num) {
-    console.log(`armsrong: ${num}`);
     return true;
   } else {
-    console.log("armstrong is not true");
     return false;
   }
 };
@@ -62,7 +61,6 @@ const sumOfDigit = (num) => {
     let digit = parseInt(numStr[i]);
     sum += digit;
   }
-  console.log(sum);
   return sum;
 };
 sumOfDigit(1234);
@@ -87,17 +85,18 @@ const funFact = async (num) => {
     return data.text;
   } catch (error) {
     console.error("Error fetching fun fact:", error);
+    return "No fun fact available.";
   }
 };
 funFact(42); // Example usage
 
 app.get("/api/classify-number", async (req, res) => {
   try {
-    const numString = req.query.num;
+    const numString = req.query.number;
 
     if (!numString || isNaN(numString) || numString.includes(" ")) {
       return res.status(400).json({
-        number: "alphabet",
+        number: numString,
         error: true,
       });
     }
