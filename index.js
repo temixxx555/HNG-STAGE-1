@@ -2,24 +2,15 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const cors = require("cors");
-app.use(cors());
 
+app.use(cors()); 
 const primeNumbers = (num) => {
-  if (num < 2) {
-    console.log("wrong number");
-    return false;
-  }
-  for (let i = 2; i < num; i++) {
-    if (num % i === 0) {
-      console.log(`Not a prime number: ${num}`);
-
-      return false;
+    if (num < 2) return false; 
+    for (let i = 2; i < num; i++) {
+      if (num % i === 0) return false; 
     }
-  }
-
-  console.log(`prime number: ${num}`);
-  return true;
-};
+    return true; 
+  };
 primeNumbers(2);
 
 const armstrong = (num) => {
@@ -32,8 +23,10 @@ const armstrong = (num) => {
   }
 
   if (sum === num) {
+    console.log(`armsrong: ${num}`);
     return true;
   } else {
+    console.log("armstrong is not true");
     return false;
   }
 };
@@ -85,7 +78,7 @@ const funFact = async (num) => {
     return data.text;
   } catch (error) {
     console.error("Error fetching fun fact:", error);
-    return "No fun fact available.";
+    return "No fun fact available."; 
   }
 };
 funFact(42); // Example usage
